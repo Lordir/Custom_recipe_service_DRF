@@ -15,3 +15,9 @@ class AddRecipeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Recipe.objects.create(**validated_data)
+
+
+class ListRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        exclude = ('cooking_steps',)

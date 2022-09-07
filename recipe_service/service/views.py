@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.pagination import LimitOffsetPagination
 
 from .serializers import *
 
@@ -54,3 +55,52 @@ class AddRecipe(APIView):
 
         return Response({'recipe': serializer.data})
 
+
+class ListRecipe(generics.ListAPIView):
+    queryset = Recipe.objects.filter(is_active=True)
+    serializer_class = ListRecipeSerializer
+
+
+class ListRecipeSortLikes(APIView, LimitOffsetPagination):
+    def get(self, request):
+        recipes = Recipe.objects.filter(is_active=True)
+        recipes_pagination = self.paginate_queryset(recipes, request, view=self)
+        get_data = ListRecipeSerializer(recipes_pagination, many=True).data
+
+        # sorting
+        for g in range(len(get_data) - 1):
+            for h in range(len(get_data) - g - 1):
+                if get_data[h]['likes'] < get_data[h + 1]['likes']:
+                    get_data[h], get_data[h + 1] = get_data[h + 1], get_data[h]
+
+        return self.get_paginated_response(get_data)
+
+
+class ListRecipeSortDate(APIView, LimitOffsetPagination):
+    def get(self, request):
+        recipes = Recipe.objects.filter(is_active=True)
+        recipes_pagination = self.paginate_queryset(recipes, request, view=self)
+        get_data = ListRecipeSerializer(recipes_pagination, many=True).data
+
+        # sorting
+        for g in range(len(get_data) - 1):
+            for h in range(len(get_data) - g - 1):
+                if get_data[h]['created_on'] > get_data[h + 1]['created_on']:
+                    get_data[h], get_data[h + 1] = get_data[h + 1], get_data[h]
+
+        return self.get_paginated_response(get_data)
+
+
+class ListRecipeSortName(APIView, LimitOffsetPagination):
+    def get(self, request):
+        recipes = Recipe.objects.filter(is_active=True)
+        recipes_pagination = self.paginate_queryset(recipes, request, view=self)
+        get_data = ListRecipeSerializer(recipes_pagination, many=True).data
+
+        # sorting
+        for g in range(len(get_data) - 1):
+            for h in range(len(get_data) - g - 1):
+                if get_data[h]['title'] > get_data[h + 1]['title']:
+                    get_data[h], get_data[h + 1] = get_data[h + 1], get_data[h]
+
+        return self.get_paginated_response(get_data)

@@ -10,4 +10,8 @@ urlpatterns = [
     path('api/v1/user_profile/', GetUserProfile.as_view()),
     path('api/v1/top_users/', GetTopUsers.as_view()),
     path('api/v1/add_recipe/', AddRecipe.as_view()),
+    path('api/v1/list_recipe/', ListRecipe.as_view()),
+    path('api/v1/list_recipe/sort_likes/', ListRecipeSortLikes.as_view()),
+    path('api/v1/list_recipe/sort_date/', ListRecipeSortDate.as_view()),
+    path('api/v1/list_recipe/sort_name/', ListRecipeSortName.as_view()),
 ]

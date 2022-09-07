@@ -9,4 +9,5 @@ urlpatterns = [
     path('accounts/profile/', GetUserProfile.as_view()),
     path('api/v1/user_profile/', GetUserProfile.as_view()),
     path('api/v1/top_users/', GetTopUsers.as_view()),
+    path('api/v1/add_recipe/', AddRecipe.as_view()),
 ]

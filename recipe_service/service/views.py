@@ -27,10 +27,10 @@ class GetTopUsers(APIView):
             index += 1
 
         # sorting
-        for g in range(len(get_data)-1):
-            for h in range(len(get_data)-g-1):
-                if get_data[h]['number_of_recipes'] < get_data[h+1]['number_of_recipes']:
-                    get_data[h], get_data[h+1] = get_data[h+1], get_data[h]
+        for g in range(len(get_data) - 1):
+            for h in range(len(get_data) - g - 1):
+                if get_data[h]['number_of_recipes'] < get_data[h + 1]['number_of_recipes']:
+                    get_data[h], get_data[h + 1] = get_data[h + 1], get_data[h]
 
         if len(get_data) < 10:
             i = len(get_data)
@@ -44,3 +44,13 @@ class GetTopUsers(APIView):
                 final_list.append(item)
                 i -= 1
         return Response(final_list)
+
+
+class AddRecipe(APIView):
+    def post(self, request):
+        serializer = AddRecipeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=self.request.user)
+
+        return Response({'recipe': serializer.data})
+

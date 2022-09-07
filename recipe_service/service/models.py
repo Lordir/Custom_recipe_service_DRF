@@ -7,7 +7,6 @@ class User(AbstractUser):
                                 help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
                                 max_length=30, unique=True, verbose_name='username')
     password = models.CharField(max_length=128, verbose_name='password')
-    email = models.EmailField(max_length=254, verbose_name='email address')
     is_superuser = models.BooleanField(default=False, verbose_name='superuser status')
     is_active = models.BooleanField(default=True, verbose_name='active')
     updated_on = models.DateTimeField(auto_now=True)

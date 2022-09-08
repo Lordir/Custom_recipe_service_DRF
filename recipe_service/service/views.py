@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
@@ -126,3 +127,15 @@ class GetRecipe(generics.RetrieveAPIView):
     queryset = Recipe.objects.all()
     serializer_class = GetRecipeSerializer
     permission_classes = (CheckIsActive,)
+
+
+class LikeRecipe(APIView):
+    permission_classes = (CheckIsActive,)
+
+    def get(self, request, **kwargs):
+        recipes = Recipe.objects.filter(id=self.kwargs['pk'])
+        Recipe.objects.filter(id=self.kwargs['pk']).update(likes=F('likes') + 1)
+        get_data = LikeRecipeSerializer(recipes, many=True).data
+        get_data[0]['likes'] += 1
+
+        return Response(get_data)

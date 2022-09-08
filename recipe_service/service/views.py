@@ -104,3 +104,8 @@ class ListRecipeSortName(APIView, LimitOffsetPagination):
                     get_data[h], get_data[h + 1] = get_data[h + 1], get_data[h]
 
         return self.get_paginated_response(get_data)
+
+
+class GetRecipe(generics.RetrieveAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = GetRecipeSerializer

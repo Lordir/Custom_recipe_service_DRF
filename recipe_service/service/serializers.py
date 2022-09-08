@@ -21,3 +21,9 @@ class ListRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         exclude = ('cooking_steps',)
+
+
+class GetRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = '__all__'

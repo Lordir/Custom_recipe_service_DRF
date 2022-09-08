@@ -19,7 +19,15 @@ class AddRecipeSerializer(serializers.ModelSerializer):
     #     return Recipe.objects.create(**validated_data)
 
 
+class UsersForListRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'is_active')
+
+
 class ListRecipeSerializer(serializers.ModelSerializer):
+    author = UsersForListRecipeSerializer()
+
     class Meta:
         model = Recipe
         exclude = ('cooking_steps',)

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import LimitOffsetPagination
 
+from .permissions import CheckIsActive
 from .serializers import *
 
 
@@ -18,6 +19,8 @@ class GetUserProfile(APIView):
 
 
 class GetTopUsers(APIView):
+    permission_classes = (CheckIsActive,)
+
     def get(self, request):
         users = User.objects.filter(is_active=True)
         get_data = UserSerializer(users, many=True).data
@@ -47,21 +50,30 @@ class GetTopUsers(APIView):
         return Response(final_list)
 
 
-class AddRecipe(APIView):
-    def post(self, request):
-        serializer = AddRecipeSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(author=self.request.user)
+# class AddRecipe(APIView):
+#     def post(self, request):
+#         serializer = AddRecipeSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save(author=self.request.user)
+#
+#         return Response({'recipe': serializer.data})
 
-        return Response({'recipe': serializer.data})
+
+class AddRecipe(generics.CreateAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = AddRecipeSerializer
+    permission_classes = (CheckIsActive,)
 
 
 class ListRecipe(generics.ListAPIView):
     queryset = Recipe.objects.filter(is_active=True)
     serializer_class = ListRecipeSerializer
+    permission_classes = (CheckIsActive,)
 
 
 class ListRecipeSortLikes(APIView, LimitOffsetPagination):
+    permission_classes = (CheckIsActive,)
+
     def get(self, request):
         recipes = Recipe.objects.filter(is_active=True)
         recipes_pagination = self.paginate_queryset(recipes, request, view=self)
@@ -77,6 +89,8 @@ class ListRecipeSortLikes(APIView, LimitOffsetPagination):
 
 
 class ListRecipeSortDate(APIView, LimitOffsetPagination):
+    permission_classes = (CheckIsActive,)
+
     def get(self, request):
         recipes = Recipe.objects.filter(is_active=True)
         recipes_pagination = self.paginate_queryset(recipes, request, view=self)
@@ -92,6 +106,8 @@ class ListRecipeSortDate(APIView, LimitOffsetPagination):
 
 
 class ListRecipeSortName(APIView, LimitOffsetPagination):
+    permission_classes = (CheckIsActive,)
+
     def get(self, request):
         recipes = Recipe.objects.filter(is_active=True)
         recipes_pagination = self.paginate_queryset(recipes, request, view=self)
@@ -109,3 +125,4 @@ class ListRecipeSortName(APIView, LimitOffsetPagination):
 class GetRecipe(generics.RetrieveAPIView):
     queryset = Recipe.objects.all()
     serializer_class = GetRecipeSerializer
+    permission_classes = (CheckIsActive,)

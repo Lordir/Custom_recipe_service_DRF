@@ -9,12 +9,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AddRecipeSerializer(serializers.ModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Recipe
-        exclude = ('likes', 'is_active', 'author')
+        exclude = ('likes', 'is_active')
 
-    def create(self, validated_data):
-        return Recipe.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     return Recipe.objects.create(**validated_data)
 
 
 class ListRecipeSerializer(serializers.ModelSerializer):

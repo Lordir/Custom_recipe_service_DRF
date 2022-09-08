@@ -139,3 +139,39 @@ class LikeRecipe(APIView):
         get_data[0]['likes'] += 1
 
         return Response(get_data)
+
+
+class GetTopUsersLikes(APIView):
+    permission_classes = (CheckIsActive,)
+
+    def get(self, request):
+        users = User.objects.filter(is_active=True)
+        get_data = UserSerializer(users, many=True).data
+        index = 0
+        for user in users:
+            recipes = Recipe.objects.filter(author=user.pk)
+            get_data[index].update({'number_of_recipes': len(recipes)})
+            number_of_likes = 0
+            for recipe in recipes:
+                number_of_likes += recipe.likes
+            get_data[index].update({'number_of_likes': number_of_likes})
+            index += 1
+
+        # sorting
+        for g in range(len(get_data) - 1):
+            for h in range(len(get_data) - g - 1):
+                if get_data[h]['number_of_likes'] < get_data[h + 1]['number_of_likes']:
+                    get_data[h], get_data[h + 1] = get_data[h + 1], get_data[h]
+
+        if len(get_data) < 10:
+            i = len(get_data)
+        else:
+            i = 10
+        final_list = []
+        for item in get_data:
+            if i == 0:
+                break
+            else:
+                final_list.append(item)
+                i -= 1
+        return Response(final_list)

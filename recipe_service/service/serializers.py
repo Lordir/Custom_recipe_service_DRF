@@ -33,6 +33,14 @@ class ListRecipeSerializer(serializers.ModelSerializer):
         exclude = ('cooking_steps',)
 
 
+class FavoritesListSerializer(serializers.ModelSerializer):
+    recipe = ListRecipeSerializer()
+
+    class Meta:
+        model = Favorites
+        fields = ('recipe',)
+
+
 class GetRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe

@@ -193,3 +193,13 @@ class AddInFavorites(APIView):
             Favorites.objects.create(user=request.user, recipe=recipe[0])
 
         return Response({'user': request.user.username, 'recipe': recipe[0].title})
+
+
+class GetMyFavoritesList(APIView, LimitOffsetPagination):
+    permission_classes = (CheckIsActive,)
+
+    def get(self, request):
+        favorites = Favorites.objects.filter(user=request.user)
+        get_data = FavoritesListSerializer(favorites, many=True).data
+
+        return Response(get_data)

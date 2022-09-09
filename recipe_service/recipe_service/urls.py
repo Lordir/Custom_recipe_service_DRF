@@ -16,5 +16,6 @@ urlpatterns = [
     path('api/v1/list_recipe/sort_date/', ListRecipeSortDate.as_view()),
     path('api/v1/list_recipe/sort_name/', ListRecipeSortName.as_view()),
     path('api/v1/get_recipe/<pk>/', GetRecipe.as_view()),
-    path('api/v1/get_recipe/<pk>/like', LikeRecipe.as_view()),
+    path('api/v1/get_recipe/<pk>/like/', LikeRecipe.as_view()),
+    path('api/v1/get_recipe/<pk>/add_in_favorites/', AddInFavorites.as_view()),
 ]

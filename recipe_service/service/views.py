@@ -175,3 +175,21 @@ class GetTopUsersLikes(APIView):
                 final_list.append(item)
                 i -= 1
         return Response(final_list)
+
+
+class AddInFavorites(APIView):
+    permission_classes = (CheckIsActive,)
+
+    def get(self, request, **kwargs):
+        recipe = Recipe.objects.filter(id=self.kwargs['pk'])
+        favorites = Favorites.objects.filter(user=request.user)
+        flag = True
+
+        for i in range(len(favorites)):
+            if favorites[i].recipe == recipe[0]:
+                flag = False
+                break
+        if flag:
+            Favorites.objects.create(user=request.user, recipe=recipe[0])
+
+        return Response({'user': request.user.username, 'recipe': recipe[0].title})

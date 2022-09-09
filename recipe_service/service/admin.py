@@ -10,3 +10,4 @@ class UsersAdmin(UserAdmin):
 
 admin.site.register(User, UsersAdmin)
 admin.site.register(Recipe)
+admin.site.register(Favorites)

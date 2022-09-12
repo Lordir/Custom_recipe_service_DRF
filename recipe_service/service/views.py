@@ -216,7 +216,7 @@ class UpdateUsername(APIView):
         return Response(serializer.data)
 
 
-class UpdateRecipes(generics.RetrieveUpdateAPIView):
+class UpdateRecipes(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (CheckIsActive, IsOwnerOrReadOnly)
     queryset = Recipe.objects.all()
     serializer_class = ChangeRecipesSerializer

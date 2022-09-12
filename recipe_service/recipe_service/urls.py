@@ -21,4 +21,6 @@ urlpatterns = [
     path('api/v1/get_my_favorites/', GetMyFavoritesList.as_view()),
     path('api/v1/change_username/', UpdateUsername.as_view()),
     path('api/v1/change_recipes/<int:pk>/', UpdateRecipes.as_view()),
+    path('api/v1/change_recipes/<int:pk>/', UpdateRecipes.as_view()),
+    path('api/v1/delete_user/', DeleteUser.as_view()),
 ]

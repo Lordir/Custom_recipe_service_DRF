@@ -220,3 +220,13 @@ class UpdateRecipes(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (CheckIsActive, IsOwnerOrReadOnly)
     queryset = Recipe.objects.all()
     serializer_class = ChangeRecipesSerializer
+
+
+class DeleteUser(APIView):
+    permission_classes = (CheckIsActive, IsOwnerOrReadOnly)
+
+    def delete(self, request):
+        pk = request.user.pk
+        queryset = User.objects.filter(id=pk)
+        queryset.delete()
+        return Response(queryset)

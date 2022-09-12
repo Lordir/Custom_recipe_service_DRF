@@ -16,7 +16,7 @@ class User(AbstractUser):
 
 
 class Recipe(models.Model):
-    author = models.ForeignKey('User', on_delete=models.PROTECT, verbose_name="Автор")
+    author = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Автор")
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=30, verbose_name="Название")
@@ -32,7 +32,7 @@ class Recipe(models.Model):
 
 
 class Favorites(models.Model):
-    user = models.ForeignKey('User', on_delete=models.PROTECT, verbose_name="Пользователь")
+    user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Пользователь")
     recipe = models.ForeignKey('Recipe', on_delete=models.PROTECT, verbose_name="Рецепт")
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Favorites(models.Model):
 
 
 class Hashtag(models.Model):
-    recipe = models.ForeignKey('Recipe', on_delete=models.PROTECT, verbose_name="Рецепт")
+    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, verbose_name="Рецепт")
     hashtag = models.CharField(max_length=30, verbose_name="Хэштег")
 
     def __str__(self):

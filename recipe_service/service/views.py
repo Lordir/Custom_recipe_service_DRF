@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import LimitOffsetPagination
 
-from .permissions import CheckIsActive
+from .permissions import CheckIsActive, IsOwnerOrReadOnly
 from .serializers import *
 
 
@@ -215,3 +215,8 @@ class UpdateUsername(APIView):
         serializer.save()
         return Response(serializer.data)
 
+
+class UpdateRecipes(generics.RetrieveUpdateAPIView):
+    permission_classes = (CheckIsActive, IsOwnerOrReadOnly)
+    queryset = Recipe.objects.all()
+    serializer_class = ChangeRecipesSerializer

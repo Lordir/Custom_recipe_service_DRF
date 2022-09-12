@@ -57,3 +57,9 @@ class LikeRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = '__all__'
+
+
+class ChangeRecipesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        exclude = ('likes', 'author')

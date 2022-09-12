@@ -15,9 +15,10 @@ urlpatterns = [
     path('api/v1/list_recipe/sort_likes/', ListRecipeSortLikes.as_view()),
     path('api/v1/list_recipe/sort_date/', ListRecipeSortDate.as_view()),
     path('api/v1/list_recipe/sort_name/', ListRecipeSortName.as_view()),
-    path('api/v1/get_recipe/<pk>/', GetRecipe.as_view()),
-    path('api/v1/get_recipe/<pk>/like/', LikeRecipe.as_view()),
-    path('api/v1/get_recipe/<pk>/add_in_favorites/', AddInFavorites.as_view()),
+    path('api/v1/get_recipe/<int:pk>/', GetRecipe.as_view()),
+    path('api/v1/get_recipe/<int:pk>/like/', LikeRecipe.as_view()),
+    path('api/v1/get_recipe/<int:pk>/add_in_favorites/', AddInFavorites.as_view()),
     path('api/v1/get_my_favorites/', GetMyFavoritesList.as_view()),
     path('api/v1/change_username/', UpdateUsername.as_view()),
+    path('api/v1/change_recipes/<int:pk>/', UpdateRecipes.as_view()),
 ]

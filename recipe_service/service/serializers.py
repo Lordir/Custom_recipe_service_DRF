@@ -8,6 +8,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'is_active')
 
 
+class RenameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',)
+
+
 class AddRecipeSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
 

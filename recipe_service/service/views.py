@@ -203,3 +203,15 @@ class GetMyFavoritesList(APIView, LimitOffsetPagination):
         get_data = FavoritesListSerializer(favorites, many=True).data
 
         return Response(get_data)
+
+
+class UpdateUsername(APIView):
+    permission_classes = (CheckIsActive,)
+
+    def put(self, request, *args, **kwargs):
+        pk = request.user
+        serializer = RenameSerializer(pk, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
